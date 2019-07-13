@@ -19,6 +19,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
 
     /**
      * 读取消息通道
+     * context 对应接收的客户端
      */
     @Override
     protected void channelRead0(ChannelHandlerContext context, String msg) throws Exception {
@@ -36,9 +37,6 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
 
     /**
      * 处理新加的消息通道
-     *
-     * @param ctx
-     * @throws Exception
      */
     @Override
     public void handlerAdded(ChannelHandlerContext ctx) throws Exception {
@@ -53,9 +51,6 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
 
     /**
      * 处理退出消息通道
-     *
-     * @param ctx
-     * @throws Exception
      */
     @Override
     public void handlerRemoved(ChannelHandlerContext ctx) throws Exception {
@@ -70,9 +65,6 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
 
     /**
      * 在建立连接时发送消息
-     *
-     * @param ctx
-     * @throws Exception
      */
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
@@ -88,9 +80,6 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
 
     /**
      * 退出时发送消息
-     *
-     * @param ctx
-     * @throws Exception
      */
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
@@ -104,10 +93,6 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
 
     /**
      * 异常捕获
-     *
-     * @param ctx
-     * @param e
-     * @throws Exception
      */
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable e) throws Exception {

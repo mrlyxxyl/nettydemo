@@ -35,9 +35,9 @@ public class ServerDemo {
                         }
                     });
 
-            ChannelFuture channelFuture = bootstrap.bind(port).sync();
+            Channel channel = bootstrap.bind(port).sync().channel();
             System.out.println("server started and listening client .....");
-            channelFuture.channel().closeFuture().sync();
+            channel.closeFuture().sync();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

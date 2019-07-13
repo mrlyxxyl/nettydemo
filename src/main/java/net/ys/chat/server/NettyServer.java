@@ -12,13 +12,11 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
  */
 public class NettyServer {
 
-    private int port;
-
-    public NettyServer(int port) {
-        this.port = port;
+    public static void main(String[] args) {
+        startServer(8899);
     }
 
-    public void run() {
+    public static void startServer(int port) {
         //EventLoopGroup是用来处理IO操作的多线程事件循环器
 
         //负责接收客户端连接线程
@@ -52,9 +50,5 @@ public class NettyServer {
             bossGroup.shutdownGracefully();
             workerGroup.shutdownGracefully();
         }
-    }
-
-    public static void main(String[] args) {
-        new NettyServer(8899).run();
     }
 }

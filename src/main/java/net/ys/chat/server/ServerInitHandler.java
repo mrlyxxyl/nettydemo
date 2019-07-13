@@ -10,6 +10,7 @@ import io.netty.handler.codec.string.StringEncoder;
  * 服务器初始化
  */
 public class ServerInitHandler extends ChannelInitializer<SocketChannel> {
+    
     @Override
     protected void initChannel(SocketChannel socketChannel) throws Exception {
         //管道注册handler

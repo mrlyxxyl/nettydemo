@@ -16,18 +16,11 @@ import java.io.InputStreamReader;
  */
 public class NettyClient {
 
-    private String ip;
-
-    private int port;
-
-    private boolean stop = false;
-
-    public NettyClient(String ip, int port) {
-        this.ip = ip;
-        this.port = port;
+    public static void main(String[] args) throws Exception {
+        startClient("127.0.0.1", 8899);
     }
 
-    public void run() throws IOException {
+    public static void startClient(String host, int port) throws IOException {
         //设置一个多线程循环器
         EventLoopGroup workerGroup = new NioEventLoopGroup();
         //启动附注类
@@ -39,7 +32,7 @@ public class NettyClient {
         bootstrap.handler(new ClientInitHandler());
         try {
             //连接服务
-            Channel channel = bootstrap.connect(ip, port).sync().channel();
+            Channel channel = bootstrap.connect(host, port).sync().channel();
             while (true) {
                 //向服务端发送内容
                 BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -57,9 +50,5 @@ public class NettyClient {
         } finally {
             workerGroup.shutdownGracefully();
         }
-    }
-
-    public static void main(String[] args) throws Exception {
-        new NettyClient("127.0.0.1", 8899).run();
     }
 }

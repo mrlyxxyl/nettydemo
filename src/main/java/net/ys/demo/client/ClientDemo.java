@@ -35,9 +35,9 @@ public class ClientDemo {
                         }
                     });
 
-            ChannelFuture channelFuture = bootstrap.connect(host, port).sync();
+            Channel channel = bootstrap.connect(host, port).sync().channel();
             System.out.println("client started and send msg");
-            channelFuture.channel().closeFuture().sync();
+            channel.closeFuture().sync();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -47,12 +47,6 @@ public class ClientDemo {
     }
 
     private static class DemoClientHandler extends ChannelInboundHandlerAdapter {
-
-        @Override
-        public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-            Thread.sleep(2000);
-            this.channelActive(ctx);
-        }
 
         @Override
         public void channelActive(ChannelHandlerContext ctx) throws Exception {
