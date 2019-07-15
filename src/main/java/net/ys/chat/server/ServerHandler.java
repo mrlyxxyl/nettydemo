@@ -42,7 +42,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
     public void handlerAdded(ChannelHandlerContext ctx) throws Exception {
         Channel channel = ctx.channel();
         for (Channel ch : group) {
-            if (ch == channel) {
+            if (ch != channel) {
                 ch.writeAndFlush("[" + channel.remoteAddress() + "] coming");
             }
         }

@@ -13,7 +13,7 @@ import io.netty.handler.codec.string.StringEncoder;
 public class ClientInitHandler extends ChannelInitializer<SocketChannel> {
     @Override
     protected void initChannel(SocketChannel socketChannel) throws Exception {
-        
+
         //注册管道
         ChannelPipeline pipeline = socketChannel.pipeline();
         pipeline.addLast("decoder", new StringDecoder());
