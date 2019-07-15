@@ -73,15 +73,70 @@ public class ChatServer {
             System.out.println("[" + channel.remoteAddress() + "]: " + msg + "\n");
         }
 
+        /**
+         * 处理新加的消息通道
+         */
         @Override
         public void handlerAdded(ChannelHandlerContext ctx) throws Exception {
-            GROUP.add(ctx.channel());
+            Channel channel = ctx.channel();
+            for (Channel ch : GROUP) {
+                if (ch != channel) {
+                    ch.writeAndFlush("[" + channel.remoteAddress() + "] coming");
+                }
+            }
+            GROUP.add(channel);
         }
 
+        /**
+         * 处理退出消息通道
+         */
         @Override
         public void handlerRemoved(ChannelHandlerContext ctx) throws Exception {
-            GROUP.remove(ctx.channel());
+            Channel channel = ctx.channel();
+            for (Channel ch : GROUP) {
+                if (ch == channel) {
+                    ch.writeAndFlush("[" + channel.remoteAddress() + "] leaving");
+                }
+            }
+            GROUP.remove(channel);
         }
 
+        /**
+         * 在建立连接时发送消息
+         */
+        @Override
+        public void channelActive(ChannelHandlerContext ctx) throws Exception {
+            Channel channel = ctx.channel();
+            boolean active = channel.isActive();
+            if (active) {
+                System.out.println("[" + channel.remoteAddress() + "] is online");
+            } else {
+                System.out.println("[" + channel.remoteAddress() + "] is offline");
+            }
+            ctx.writeAndFlush("[server]: welcome");
+        }
+
+        /**
+         * 退出时发送消息
+         */
+        @Override
+        public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+            Channel channel = ctx.channel();
+            if (!channel.isActive()) {
+                System.out.println("[" + channel.remoteAddress() + "] is offline");
+            } else {
+                System.out.println("[" + channel.remoteAddress() + "] is online");
+            }
+        }
+
+        /**
+         * 异常捕获
+         */
+        @Override
+        public void exceptionCaught(ChannelHandlerContext ctx, Throwable e) throws Exception {
+            Channel channel = ctx.channel();
+            System.out.println("[" + channel.remoteAddress() + "] leave the room");
+            ctx.close().sync();
+        }
     }
 }
